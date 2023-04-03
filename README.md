@@ -34,17 +34,17 @@ Here the application name container is the application you want to run by yourse
 
 The request for creating a payment has the following fields:
 
-**checkoutId (Guid)**: This is the id that represents the checkout process in the purchase made by the shopper with the merchant. It is used as an idempotency key to ensure that this payment will be unique.
-**shopperId (Guid)**: This is the id that represents the shopper (buyer) making the payment.
-**merchantId (Guid)**: This is the id that represents the merchant receiving the payment.
-**amount (string)**: Represents the payment value that should be charged for the transaction, expressed in the format "00.00". It should be noted that this field should only contain numerical values and the decimal point, with no other characters such as commas or currency symbols.
-**currency (string)**: Currency used in this payment. It is represented in three letters alphabetic code using the ISO 4217 format.
-**creditCard (string)**: Information about the credit card used for payment.
-  **holder**: The name of the credit card owner, usually printed on the front of the card.
-  **cardNumber**: A credit card number is the long set of digits that usually appear on the front or back of your credit card. It is used to identify your credit card account.
-  **cardVerificationValue**: The Card Verification Value (CVV), also known as Card Security Code (CSC) is a number that is usually printed on the back of a credit card. The code is a security feature that allows the credit card processor to identify the cardholder.
-  **ExpirityMonth**: Credit card expiration month.
-  **ExpirityYear**: Credit card expiration year.
+- **checkoutId (Guid)**: This is the id that represents the checkout process in the purchase made by the shopper with the merchant. It is used as an idempotency key to ensure that this payment will be unique.
+- **shopperId (Guid)**: This is the id that represents the shopper (buyer) making the payment.
+- **merchantId (Guid)**: This is the id that represents the merchant receiving the payment.
+- **amount (string)**: Represents the payment value that should be charged for the transaction, expressed in the format "00.00". It should be noted that this field should only contain numerical values and the decimal point, with no other characters such as commas or currency symbols.
+- **currency (string)**: Currency used in this payment. It is represented in three letters alphabetic code using the ISO 4217 format.
+- **creditCard (string)**: Information about the credit card used for payment.
+    - **creditCard.holder**: The name of the credit card owner, usually printed on the front of the card.
+    - **creditCard.cardNumber**: A credit card number is the long set of digits that usually appear on the front or back of your credit card. It is used to identify your credit card account.
+    - **creditCard.cardVerificationValue**: The Card Verification Value (CVV), also known as Card Security Code (CSC) is a number that is usually printed on the back of a credit card. The code is a security feature that allows the credit card processor to identify the cardholder.
+    - **creditCardExpirityMonth**: Credit card expiration month.
+    - **creditCardExpirityYear**: Credit card expiration year.
 
 
 Exemple:

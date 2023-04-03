@@ -14,4 +14,4 @@ jobs:
       - name: Build Projects
         run: |
           echo github.ref
-          dotnet build --project "Payment Gateway"
+          dotnet build

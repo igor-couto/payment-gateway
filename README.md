@@ -1,6 +1,6 @@
 # Payment Gateway
 
-[![GitHub license](https://img.shields.io/github/license/igor-couto/payment-gateway.svg)](https://github.com/igor-couto/payment-gateway/blob/main/LICENCE)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/igor-couto/payment-gateway/blob/main/LICENSE)
 ![Build Badge](https://github.com/igor-couto/payment-gateway/actions/workflows/pipeline.yml/badge.svg)
 
 An application that allows a merchant to offer a way for their shoppers to pay for their product.
@@ -29,6 +29,10 @@ Step 3
 http://localhost:5127/swagger
 
 Here the application name container is the application you want to run by yoursef. It can be: payment_gateway_api, payment_executor or acquiring_bank_simulator
+
+## About the solution
+
+### Arquiteture
 
 ### Request
 

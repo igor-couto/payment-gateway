@@ -1,0 +1,85 @@
+version: "3.9"
+services:
+
+  payment_database:
+    image: postgres
+    container_name: payment_database 
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: paymentDb
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  localstack:
+    image: localstack/localstack
+    environment:
+      SERVICES: sqs
+      DEBUG: 1
+      ALLOW_NONSTANDARD_REGIONS: 1
+      LOCALSTACK_HOSTNAME: localhost
+      DATA_DIR: /tmp/localstack/data
+    ports:
+      - "4566:4566"
+    volumes:
+      - "./.localstack:/tmp/localstack"
+    command: "/usr/bin/localstack start --host 0.0.0.0 --port 4566"
+
+  acquiring_bank_simulator:
+    container_name: acquiring_bank_simulator
+    build:
+      context: ./Acquiring Bank Simulator
+      dockerfile: Dockerfile
+    ports:
+      - "5087:5087"
+
+  payment_executor:
+    container_name: payment_executor
+    build:
+      context: .
+      dockerfile: ./Payment Executor/Dockerfile
+    depends_on:
+      - payment_database
+      - localstack
+      - acquiring_bank_simulator
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      LOCALSTACK__SERVICEURL: "http://localstack:4566"
+      CONNECTIONSTRINGS__DEFAULTCONNECTION: "Server=payment_database;Database=paymentDb;Port=5432;User Id=admin;Password=admin;"
+      ACQUIRINGBANKSIMULATOR__URL: "http://acquiring_bank_simulator:5087"
+
+  # payment_gateway_api:
+  #   container_name: payment_gateway_api
+  #   build:
+  #     context: .
+  #     dockerfile: ./Payment Gateway/Dockerfile
+  #   depends_on:
+  #     - payment_database
+  #     - localstack
+  #     - redis
+  #   ports:
+  #     - "5127:5127"
+  #     - "7290:7290"
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: Development
+  #     LOCALSTACK__SERVICEURL: "http://localstack:4566"
+  #     CONNECTIONSTRINGS__DEFAULTCONNECTION: "Server=payment_database;Database=paymentDb;Port=5432;User Id=admin;Password=admin;"
+  #     KESTREL__ENDPOINTS__HTTP__URL: "http://+:5127"
+  #     KESTREL__ENDPOINTS__HTTPS__URL: "https://+:7290"
+  #     KESTREL__ENDPOINTS__HTTPS__CERTIFICATE__PATH: "./certs/certificate.crt"
+  #     KESTREL__ENDPOINTS__HTTPS__CERTIFICATE__KEYPATH: "./certs/certificate.key"
+  #   volumes:
+  #     - ./certs:/app/certs   
+
+volumes:
+  dbdata:

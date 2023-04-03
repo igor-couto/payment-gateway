@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-Payment_Executor-bb4d00b4-9383-4c3d-a904-a8cda86fa969</UserSecretsId>
+    <RootNamespace>PaymentExecutor</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWS.Logger.SeriLog" Version="3.2.0" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.5" />
+    <PackageReference Include="AWSSDK.SQS" Version="3.7.100.102" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
+	<PackageReference Include="EFCore.NamingConventions" Version="7.0.2" />
+	<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.4.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

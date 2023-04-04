@@ -102,7 +102,6 @@ Several services were used for development:
 - Identity and Access Management (IAM): Creating a new user, grant permissions to use AWS services 
 - AWS Cloudwatch: Stream the application logs when the environment is not Development
 - Amazon Simple Queue Service (SQS): payments queue and dead letter
-- AWS RDS running PostgreSQL
 
 ### Request
 
@@ -121,7 +120,7 @@ The request for creating a payment has the following fields:
     - **expirityYear**: Credit card expiration year.
 
 
-Exemple:
+Request Exemple:
 
 ```json
 {
@@ -132,7 +131,7 @@ Exemple:
   "currency": "USD",
   "creditCard": {
     "holder": "Igor Freitas Couto",
-    "cardNumber": "4980-5730-7604-795",
+    "cardNumber": "5119-3487-1397-7064",
     "cardVerificationValue ": "121",
     "ExpirityMonth": 7,
     "ExpirityYear": 2023
@@ -140,23 +139,48 @@ Exemple:
 }
 ```
 
-## Assumptions and considerations
-TODO
+Response Exemple:
+201 Created
+```json
+{
+    "id": "d7570d0f-9293-4df4-baba-edeff6db1a7c"
+    "shopperId": "43641647-f1cd-4187-b945-89f53e168bc1",
+    "merchantId": "480a6e61-25c1-4cec-818e-157ad9ade682",
+    "amount": "12.50",
+    "currency": "USD",
+    "maskedCreditCardNumber": "**** **** **** 7064",
+    "paymentStatus": "Not Started" 
+}
+```
 
-| Credit Card Number  | Problem                    | Message                                     |
-| ------------------- | -------------------------- | ------------------------------------------- |
-| 5385-6109-7070-6057 | XXXXXXXXXXXX               | XXXXXXXXXXXX                                |
-| 5197-6066-7512-2317 | XXXXXXXXXXXX               | XXXXXXXXXXXX                                |
-| 5144-8846-1008-0494 | XXXXXXXXXXXX               | XXXXXXXXXXXX                                |
-| 3479-3027-3551-4362 | XXXXXXXXXXXX               | XXXXXXXXXXXX                                |
+### Edge Cases
+
+Some cases are hard coded in the Acquiring Bank Simulator for testing purposes. If the following credit card numbers are used, the following errors will occur:
+
+| Credit Card Number  | Problem             | Message                                                            |
+| ------------------- | ------------------- | ------------------------------------------------------------------ |
+| 5385-6109-7070-6057 | Refer to issuer     | The user's bank rejected the transaction                           |
+| 5197-6066-7512-2317 | Lost or stolen card | The card has been reported stolen or lost                          |
+| 5144-8846-1008-0494 | Insufficient Funds  | The customer's account doesn't have enough funds to cover the sale |
+| 3479-3027-3551-4362 | Suspected Fraud     | The card-issuing bank has detected fraud                           |
+
+## Assumptions and considerations
+- The response to a payment request is a `201 Created`. The payment is registered and has the status "Not Started". The operation takes place asynchronously and the payment status can be consulted at the endpoint GET /payment/{id}
+- For security reasons, credit card details are not saved in the database. The only persisted information is the masked card number, with only the last 4 digits visible. A card numbered 5125-0634-1485-2639 would become **** **** **** 2639
+- Validations are done in the request. The card number is tested using a validator algorithm, among other rules
+- It is worth noting that the data type for the "amount" field is designated as "string" instead of "double." Using double is not ideal for the following reasons:
+    - Various protocols, software, and hardware can have differing numeric precision levels during serialization and deserialization. These discrepancies may lead to unintentional rounding mistakes.
+    - The value could be incredibly large (such as Venezuelan Bolivar) or incredibly small (like a satoshi of Bitcoin, which is 10^-8).
 
 ## Areas for improvement
+- Possibility to receive a webhook to notify back the merchant that the payment was finished or failed
 - Write more unit teste to achieve a better coverage
 - Write integration and functional tests
 - Add redis or dotnet in memory cache to perform the search for repeated payments by it's checkout id (idempotency)
 - Write a pipeline to deploy the application in EC2
 - Configure a Dead Letter Queue in AWS LocalStack. In the moment, only the AWS Production environment have a Dead Letter Queue.
 - Create an login endpoint for authentication or just use an identity provider
+- Create an AWS RDS running PostgreSQL
 
 ## Author
 

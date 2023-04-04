@@ -27,12 +27,8 @@ jobs:
     - name: Publish
       run: dotnet publish "Acquiring Bank Simulator/Acquiring Bank Simulator API.csproj" --configuration Release --no-build --output ./build_output
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
+    - name: Generate deployment package
+      run: cd ./build_output; zip -r ../deployment.zip .; cd ..
 
     - name: Generate deployment package
       run: zip -r deploy.zip './Acquiring Bank Simulator/' -x '*.git*'
@@ -46,4 +42,4 @@ jobs:
         environment_name: Acquiringbanksimulator-env
         version_label: ${{ github.sha }}
         region: us-east-1
-        deployment_package: deploy.zip
+        deployment_package: deployment.zip

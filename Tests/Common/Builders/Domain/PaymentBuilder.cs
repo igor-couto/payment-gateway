@@ -38,4 +38,10 @@ public sealed class PaymentBuilder : AutoFaker<Payment>
         RuleFor(b => b.PaymentStatus, PaymentStatus.Failed);
         return this;
     }
+
+    public PaymentBuilder WithStatus(PaymentStatus paymentStatus)
+    {
+        RuleFor(b => b.PaymentStatus, paymentStatus);
+        return this;
+    }
 }

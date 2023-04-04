@@ -1,4 +1,5 @@
 ﻿using AutoBogus;
+using Common.Builders.Domain;
 using Domain.Entities;
 using Domain.Exceptions;
 using FluentAssertions;
@@ -8,6 +9,15 @@ namespace Domain.Tests.Entities;
 
 public class PaymentTests
 {
+
+    private PaymentBuilder _paymentBuilder;
+
+    [SetUp]
+    public void SetUp() 
+    {
+        _paymentBuilder = new PaymentBuilder();
+    }
+
     [Test]
     public void Constructor_SetsProperties()
     {
@@ -39,9 +49,7 @@ public class PaymentTests
     public void Authorize_WhenNotStarted_ChangesStatusToAuthorized()
     {
         // Arrange
-        var payment = new AutoFaker<Payment>()
-            .RuleFor(p => p.PaymentStatus, PaymentStatus.NotStarted)
-            .Generate();
+        var payment = _paymentBuilder.Generate();
 
         // Act
         payment.Authorize();
@@ -55,8 +63,8 @@ public class PaymentTests
     public void Authorize_WhenAlreadyAuthorized_ThrowsException()
     {
         // Arrange
-        var payment = new AutoFaker<Payment>()
-            .RuleFor(p => p.PaymentStatus, PaymentStatus.Authorized)
+        var payment = _paymentBuilder
+            .Authorized()
             .Generate();
 
         // Act + Assert
@@ -67,8 +75,8 @@ public class PaymentTests
     public void Finish_WhenAuthorized_ChangesStatusToSuccess()
     {
         // Arrange
-        var payment = new AutoFaker<Payment>()
-            .RuleFor(p => p.PaymentStatus, PaymentStatus.Authorized)
+        var payment = _paymentBuilder
+            .Authorized()
             .Generate();
 
         // Act
@@ -83,7 +91,7 @@ public class PaymentTests
     public void Finish_WhenNotAuthorized_ThrowsException()
     {
         // Arrange
-        var payment = new AutoFaker<Payment>()
+        var payment = _paymentBuilder
             .RuleFor(p => p.PaymentStatus, f => f.PickRandom(PaymentStatus.Failed, PaymentStatus.NotStarted))
             .Generate();
 
@@ -95,8 +103,8 @@ public class PaymentTests
     public void Fail_ChangesStatusToFailedAndSetsStatusMessage()
     {
         // Arrange
-        var payment = new AutoFaker<Payment>()
-            .Generate();
+        var payment = _paymentBuilder.Generate();
+
         var failReason = "Insufficient funds";
 
         // Act

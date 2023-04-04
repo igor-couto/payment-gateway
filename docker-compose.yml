@@ -51,28 +51,5 @@ services:
       CONNECTIONSTRINGS__DEFAULTCONNECTION: "Server=payment_database;Database=paymentDb;Port=5432;User Id=admin;Password=admin;"
       ACQUIRINGBANKSIMULATOR__URL: "http://acquiring_bank_simulator:5087"
 
-  # payment_gateway_api:
-  #   container_name: payment_gateway_api
-  #   build:
-  #     context: .
-  #     dockerfile: ./Payment Gateway/Dockerfile
-  #   depends_on:
-  #     - payment_database
-  #     - localstack
-  #     - redis
-  #   ports:
-  #     - "5127:5127"
-  #     - "7290:7290"
-  #   environment:
-  #     ASPNETCORE_ENVIRONMENT: Development
-  #     LOCALSTACK__SERVICEURL: "http://localstack:4566"
-  #     CONNECTIONSTRINGS__DEFAULTCONNECTION: "Server=payment_database;Database=paymentDb;Port=5432;User Id=admin;Password=admin;"
-  #     KESTREL__ENDPOINTS__HTTP__URL: "http://+:5127"
-  #     KESTREL__ENDPOINTS__HTTPS__URL: "https://+:7290"
-  #     KESTREL__ENDPOINTS__HTTPS__CERTIFICATE__PATH: "./certs/certificate.crt"
-  #     KESTREL__ENDPOINTS__HTTPS__CERTIFICATE__KEYPATH: "./certs/certificate.key"
-  #   volumes:
-  #     - ./certs:/app/certs   
-
 volumes:
   dbdata:

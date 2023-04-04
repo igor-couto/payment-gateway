@@ -167,19 +167,20 @@ Some cases are hard coded in the Acquiring Bank Simulator for testing purposes. 
 ## Assumptions and considerations
 - The response to a payment request is a `201 Created`. The payment is registered and has the status "Not Started". The operation takes place asynchronously and the payment status can be consulted at the endpoint GET /payment/{id}
 - For security reasons, credit card details are not saved in the database. The only persisted information is the masked card number, with only the last 4 digits visible. A card numbered 5125-0634-1485-2639 would become **** **** **** 2639
-- Validations are done in the request. The card number is tested using a validator algorithm, among other rules
+- Validations are done in the request. The card is tested using [Luhn's algorithm](https://en.wikipedia.org/wiki/Luhn_algorithm) determines whether or not it has a valid number, among other rules.
 - It is worth noting that the data type for the "amount" field is designated as "string" instead of "double." Using double is not ideal for the following reasons:
     - Various protocols, software, and hardware can have differing numeric precision levels during serialization and deserialization. These discrepancies may lead to unintentional rounding mistakes.
     - The value could be incredibly large (such as Venezuelan Bolivar) or incredibly small (like a satoshi of Bitcoin, which is 10^-8).
+- If speed is a major concern, it is possible to denormalize the database tables by removing the `currency` and `payment_status` tables. Data consistency would be guaranteed only by the system that inputs the data.
 
 ## Areas for improvement
 - Possibility to receive a webhook to notify back the merchant that the payment was finished or failed
-- Write more unit teste to achieve a better coverage
+- Write more unit tests to achieve a better coverage
 - Write integration and functional tests
 - Add redis or dotnet in memory cache to perform the search for repeated payments by it's checkout id (idempotency)
 - Write a pipeline to deploy the application in EC2
 - Configure a Dead Letter Queue in AWS LocalStack. In the moment, only the AWS Production environment have a Dead Letter Queue.
-- Create an login endpoint for authentication or just use an identity provider
+- Create a login endpoint for authentication or just use an identity provider
 - Create an AWS RDS running PostgreSQL
 
 ## Author

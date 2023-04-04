@@ -5,15 +5,37 @@
 
 An application that allows a merchant to offer a way for their shoppers to pay for their product.
 
+After researching the role of a payment gateway and its multiple functionalities, I decided to make my reduced version. There is no prior credit card validity check or fraud analysis. The acquiring bank simulator only accepts an authorization request and then a capture request to finalize the transaction.
+
 ## High Level Design
 
 ![](https://github.com/igor-couto/images/blob/main/payment-gateway/payment-gateway%20design.png)
 
-[Payment Gateway](https://en.wikipedia.org/wiki/Payment_gateway)
+In this solution, the following systems were developed:
+
+Acquiring Bank Simulator:
+
+Payment Executor:
+
+Payment Gateway API:
+
+Queues: 
+
+Database:
 
 ## How to run the solution
 
-### Using the deployed application
+### Prerequisites
+
+Make sure you have the following components installed:
+- [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+- [Docker](https://www.docker.com/products/docker-desktop/)
+
+For applications to run successfully, you need the following ports available
+- PosPostgreSQL Database: 4566
+- AWS LocalStack: 5432
+- Acquiring Bank Simulator: 5087
+- Payment Gateway API: 5127 and 7290
 
 ### Running Locally
 

@@ -90,4 +90,3 @@ public record Payment
         StatusMessage = failReason;
     }
 }
-

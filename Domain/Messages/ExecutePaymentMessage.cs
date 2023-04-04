@@ -11,19 +11,19 @@ public class ExecutePaymentMessage
     public Guid MerchantId { get; init; }
 
     [JsonPropertyName("amount")]
-    public string Amount { get; init; }
+    public string Amount { get; init; } = null!;
 
     [JsonPropertyName("currencyCode")]
-    public string CurrencyCode { get; init; }
+    public string CurrencyCode { get; init; } = null!;
 
     [JsonPropertyName("CreditCardHolder")]
-    public string CreditCardHolder { get; init; }
+    public string CreditCardHolder { get; init; } = null!;
 
     [JsonPropertyName("CreditCardNumber")]
-    public string CreditCardNumber { get; init; }
+    public string CreditCardNumber { get; init; } = null!;
 
     [JsonPropertyName("CreditCardVerificationValue")]
-    public string CreditCardVerificationValue { get; init; }
+    public string CreditCardVerificationValue { get; init; } = null!;
 
     [JsonPropertyName("CreditCardExpirityMonth")]
     public int CreditCardExpirityMonth { get; init; }

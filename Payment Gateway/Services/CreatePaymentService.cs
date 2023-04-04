@@ -69,8 +69,8 @@ public class CreatePaymentService : ICreatePaymentService
                 checkoutId: createPaymentRequest.CheckoutId,
                 shopperId: createPaymentRequest.ShopperId,
                 merchantId: createPaymentRequest.MerchantId,
-                amount: createPaymentRequest.Amount,
-                currency: createPaymentRequest.Currency,
+                amount: createPaymentRequest.Amount!,
+                currency: createPaymentRequest.Currency!,
                 creditCardNumber: createPaymentRequest.CreditCard.CardNumber!
             );
 
@@ -95,8 +95,8 @@ public class CreatePaymentService : ICreatePaymentService
         {
             Id = id,
             MerchantId = createPaymentRequest.MerchantId,
-            CurrencyCode = createPaymentRequest.Currency,
-            Amount = createPaymentRequest.Amount,
+            CurrencyCode = createPaymentRequest.Currency!,
+            Amount = createPaymentRequest.Amount!,
             CreditCardHolder = createPaymentRequest.CreditCard.Holder!,
             CreditCardNumber = createPaymentRequest.CreditCard.CardNumber!,
             CreditCardVerificationValue= createPaymentRequest.CreditCard.CardVerificationValue!,

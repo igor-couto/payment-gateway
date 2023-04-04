@@ -70,6 +70,7 @@ internal class ExecutePaymentService : IExecutePaymentService
         }
         catch (HttpRequestException exception)
         {
+            _logger.LogError($"Can not send request to bank: {exception.Message}");
             throw new FailedToCommunicateWithAcquiringBankException(_authorizationUri);
         }
 

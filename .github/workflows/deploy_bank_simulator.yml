@@ -16,7 +16,7 @@ jobs:
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 7.0
+        dotnet-version: 7
 
     - name: Restore dependencies
       run: dotnet restore "Acquiring Bank Simulator/Acquiring Bank Simulator API.csproj"

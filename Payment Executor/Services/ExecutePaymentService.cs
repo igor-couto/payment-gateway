@@ -17,8 +17,8 @@ internal class ExecutePaymentService : IExecutePaymentService
     private readonly DatabaseContext _databaseContext;
     private readonly HttpClient _acquiringBankHttpClient;
 
-    private readonly string _authorizationUri = "authorization";
-    private readonly string _captureUri = "capture";
+    private readonly string _authorizationUri = "/authorization";
+    private readonly string _captureUri = "/capture";
     private readonly StringContent _emptyStringContent;
 
     public ExecutePaymentService(ILogger logger, DatabaseContext databaseContext, HttpClient acquiringBankHttpClient)
@@ -90,6 +90,8 @@ internal class ExecutePaymentService : IExecutePaymentService
             throw new FailedToExecutePaymentException(payment.Id.ToString(), result.FailReason());
         }
 
-        return Guid.NewGuid();
+        var authorizationId =  JsonSerializer.Deserialize<Guid>(await authorizationResponse.Content.ReadAsStringAsync(cancellationToken));
+        
+        return authorizationId;
     }
 }

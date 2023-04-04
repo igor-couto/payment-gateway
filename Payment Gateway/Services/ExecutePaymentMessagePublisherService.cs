@@ -18,7 +18,7 @@ public class ExecutePaymentMessagePublisherService : IExecutePaymentMessagePubli
 
     public async Task Publish(ExecutePaymentMessage executePaymentMessage, CancellationToken cancellationToken)
     {
-        var queueUrlResponse = await _sqsClient.GetQueueUrlAsync(_queueName);
+        var queueUrlResponse = await _sqsClient.GetQueueUrlAsync(_queueName, cancellationToken);
 
         var request = new SendMessageRequest
         {

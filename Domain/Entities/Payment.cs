@@ -40,7 +40,7 @@ public record Payment
         UpdatedAt = default;
     }
 
-    private string CreateMaskedCreditCardNumber(string creditCardNumber)
+    private static string CreateMaskedCreditCardNumber(string creditCardNumber)
     {
         var stringBuilder = new StringBuilder(creditCardNumber);
 
@@ -70,7 +70,7 @@ public record Payment
             UpdatedAt = DateTime.UtcNow;
             PaymentStatus = PaymentStatus.Authorized;
         }
-        else throw new ChangeToAuthorizedException(Id.ToString(), PaymentStatus.ToString());
+        else throw new PaymentChangeToAuthorizedException(Id.ToString(), PaymentStatus.ToString());
     }
 
     public void Finish()
@@ -80,7 +80,7 @@ public record Payment
             UpdatedAt = DateTime.UtcNow;
             PaymentStatus = PaymentStatus.Success;
         }
-        else throw new ChangeToFinishedException(Id.ToString(), PaymentStatus.ToString());
+        else throw new PaymentChangeToFinishedException(Id.ToString(), PaymentStatus.ToString());
     }
 
     public void Fail(string failReason)

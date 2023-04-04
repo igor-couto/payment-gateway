@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Exceptions;
 using FluentAssertions;
+using NUnit.Framework;
 
 namespace Domain.Tests.Entities;
 
@@ -59,7 +60,7 @@ public class PaymentTests
             .Generate();
 
         // Act + Assert
-        payment.Invoking(p => p.Authorize()).Should().Throw<ChangeToAuthorizedException>();
+        payment.Invoking(p => p.Authorize()).Should().Throw<PaymentChangeToAuthorizedException>();
     }
 
     [Test]
@@ -87,7 +88,7 @@ public class PaymentTests
             .Generate();
 
         // Act + Assert
-        payment.Invoking(p => p.Finish()).Should().Throw<ChangeToFinishedException>();
+        payment.Invoking(p => p.Finish()).Should().Throw<PaymentChangeToFinishedException>();
     }
 
     [Test]
@@ -117,12 +118,12 @@ public class PaymentTests
         var merchantId = Guid.NewGuid();
         var amount = "100.00";
         var currency = "USD";
-        var creditCardNumber = "1234567890123456";
+        var creditCardNumber = "1234 5678 9012 3456";
 
         // Act
         var payment = new Payment(checkoutId, shopperId, merchantId, amount, currency, creditCardNumber);
 
         // Assert
-        payment.Should().Be("************3456");
+        payment.MaskedCreditCardNumber.Should().Be("**** **** **** 3456");
     }
 }

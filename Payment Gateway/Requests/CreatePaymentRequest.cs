@@ -2,7 +2,7 @@
 
 namespace PaymentGatewayAPI.Requests;
 
-public readonly record struct CreatePaymentRequest
+public record CreatePaymentRequest
 {
     /// <summary>
     /// This is the id that represents the checkout process in the purchase made by the shopper with the merchant.
@@ -32,14 +32,14 @@ public readonly record struct CreatePaymentRequest
     /// </summary>
     /// <example>23.50</example>
     [JsonPropertyName("amount")]
-    public string Amount { get; init; }
+    public string? Amount { get; init; }
 
     /// <summary>
     /// Currency used in this payment. It is represented in three letters alphabetic code using the ISO 4217 format.
     /// </summary>
     /// <example>USD</example>
     [JsonPropertyName("currency")]
-    public string Currency { get; init; }
+    public string? Currency { get; init; }
 
     /// <summary>
     /// Information about the credit card used for payment.

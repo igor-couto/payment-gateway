@@ -33,8 +33,11 @@ public class CreatePaymentRequestValidator : AbstractValidator<CreatePaymentRequ
     private static bool BeCorrectCurrencyAlphabeticCode(string currencyCode) 
         => CurrencyCodes.Contains(currencyCode);
     
-    private static bool BeInMonetaryFormat(string monetaryValue) 
+    private static bool BeInMonetaryFormat(string? monetaryValue) 
     {
+        if (monetaryValue is null)
+            return false;
+
         var currentIndex = 0;
 
         while (currentIndex < monetaryValue.Length && monetaryValue[currentIndex] is not '.')
@@ -47,7 +50,6 @@ public class CreatePaymentRequestValidator : AbstractValidator<CreatePaymentRequ
 
         if (currentIndex == monetaryValue.Length || monetaryValue.Length - (currentIndex + 1) > 2 || currentIndex == monetaryValue.Length - 1)
             return false;
-        
 
         currentIndex++;
         while (currentIndex < monetaryValue.Length)

@@ -1,26 +1,34 @@
-﻿using Amazon.SQS.Model;
-using Amazon.SQS;
+﻿using Amazon.SQS;
 using AutoBogus;
 using Domain.Messages;
-using Moq;
 using PaymentGatewayAPI.Services;
+using NUnit.Framework;
+using NSubstitute;
+using Amazon.SQS.Model;
+using System.Text.Json;
 
 namespace PaymentGatewayUnitAPI.Services;
 
 class ExecutePaymentMessagePublisherServiceTests
 {
     private ExecutePaymentMessagePublisherService _messagePublisherService;
-    private Mock<IAmazonSQS> _sqsClientMock;
+    private IAmazonSQS _sqsClientMock;
+    private CancellationToken _cancellationToken;
     private const string QueueUrl = "https://example.com/sqs/payments.fifo";
+    private readonly string QueueName = "payments.fifo";
+
 
     [SetUp]
     public void SetUp()
     {
-        _sqsClientMock = new Mock<IAmazonSQS>();
-        _sqsClientMock.Setup(client => client.GetQueueUrlAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new GetQueueUrlResponse { QueueUrl = QueueUrl });
+        _cancellationToken = new CancellationTokenSource().Token;
 
-        _messagePublisherService = new ExecutePaymentMessagePublisherService(_sqsClientMock.Object);
+        _sqsClientMock = Substitute.For<IAmazonSQS>();
+
+        _sqsClientMock.GetQueueUrlAsync(QueueName, _cancellationToken)
+            .Returns(Task.FromResult(new GetQueueUrlResponse { QueueUrl = QueueUrl }));
+
+        _messagePublisherService = new ExecutePaymentMessagePublisherService(_sqsClientMock);
     }
 
     [Test]
@@ -29,16 +37,18 @@ class ExecutePaymentMessagePublisherServiceTests
         // Arrange
         var executePaymentMessage = AutoFaker.Generate<ExecutePaymentMessage>();
 
+        var request = new SendMessageRequest
+        {
+            QueueUrl = QueueUrl,
+            MessageBody = JsonSerializer.Serialize(executePaymentMessage),
+            MessageGroupId = Guid.NewGuid().ToString(),
+            MessageDeduplicationId = executePaymentMessage.Id.ToString(),
+        };
+
         // Act
-        await _messagePublisherService.Publish(executePaymentMessage, CancellationToken.None);
+        await _messagePublisherService.Publish(executePaymentMessage, _cancellationToken);
 
         // Assert
-        _sqsClientMock.Verify(client => client.GetQueueUrlAsync("payments.fifo", It.IsAny<CancellationToken>()), Times.Once);
-    }
-
-    [TearDown]
-    public void TearDown()
-    {
-        _sqsClientMock.Reset();
+        await _sqsClientMock.Received(1).SendMessageAsync(Arg.Any<SendMessageRequest>(), _cancellationToken );
     }
 }

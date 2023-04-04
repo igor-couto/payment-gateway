@@ -23,21 +23,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit", "Unit", "{226AF297-6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{1397EB24-6A25-4B9A-999F-62D6568355E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentExecutor.Unit", "Tests\Unit\PaymentExecutor.Unit\PaymentExecutor.Unit.csproj", "{250DDF2B-084B-44A5-8BEC-30CB3197CB55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unit.PaymentExecutor", "Tests\Unit\PaymentExecutor.Unit\Unit.PaymentExecutor.csproj", "{250DDF2B-084B-44A5-8BEC-30CB3197CB55}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance", "{FA7F9F6C-33CE-4B82-94B2-2BD1A3667D4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Performance", "Tests\Performance\Domain.Performance\Domain.Performance.csproj", "{84EEEBF8-79B5-4802-A562-52DF319B863F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Performance", "Tests\Performance\Domain.Performance\Domain.Performance.csproj", "{84EEEBF8-79B5-4802-A562-52DF319B863F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{594C72BF-0CD9-4C90-8080-5F6923F00A54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Tests\Common\Common.csproj", "{FB197D3A-435F-47BF-B04F-DAC52711321B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Tests\Common\Common.csproj", "{FB197D3A-435F-47BF-B04F-DAC52711321B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "Tests\Integration\IntegrationTests\IntegrationTests.csproj", "{686CAB38-4E47-43A0-8D5F-1A32665A5FBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests", "Tests\Integration\IntegrationTests\IntegrationTests.csproj", "{686CAB38-4E47-43A0-8D5F-1A32665A5FBA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Unit", "Tests\Unit\Domain.Unit\Domain.Unit.csproj", "{DDDE2BCD-9B14-44A5-9E0B-750EDF25B9CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unit.Domain", "Tests\Unit\Domain.Unit\Unit.Domain.csproj", "{DDDE2BCD-9B14-44A5-9E0B-750EDF25B9CC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment Gateway API.Unit", "Tests\Unit\Payment Gateway.Unit\Payment Gateway API.Unit.csproj", "{F706ACE1-62A4-472D-9ECD-2709EF87E201}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unit.Payment Gateway API", "Tests\Unit\Payment Gateway.Unit\Unit.Payment Gateway API.csproj", "{F706ACE1-62A4-472D-9ECD-2709EF87E201}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

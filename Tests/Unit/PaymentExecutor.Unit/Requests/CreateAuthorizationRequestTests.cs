@@ -1,12 +1,11 @@
 ﻿using AutoBogus;
 using Bogus;
-using Bogus.DataSets;
 using Domain.Messages;
 using FluentAssertions;
 using NUnit.Framework;
 using PaymentExecutor.Requests;
 
-namespace PaymentExecutor.Unit.Requests;
+namespace Unit.PaymentExecutor.Requests;
 
 public class CreateAuthorizationRequestTests
 {

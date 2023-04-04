@@ -45,5 +45,5 @@ public record CreatePaymentRequest
     /// Information about the credit card used for payment.
     /// </summary>
     [JsonPropertyName("creditCard")]
-    public CreditCardRequest CreditCard { get; init; }
+    public CreditCardRequest? CreditCard { get; init; }
 }

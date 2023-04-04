@@ -2,7 +2,7 @@
 
 namespace PaymentGatewayAPI.Requests;
 
-public readonly record struct CreditCardRequest
+public record CreditCardRequest
 {
     /// <summary>
     /// The name of the credit card owner, usually printed on the front of the card.

@@ -12,7 +12,7 @@ using PaymentGatewayAPI.Requests;
 using PaymentGatewayAPI.Responses;
 using PaymentGatewayAPI.Services.Interfaces;
 
-namespace PaymentGatewayUnitAPI.Controllers;
+namespace Unit.PaymentGatewayAPI.Controllers;
 
 internal class PaymentsControllerTests
 {

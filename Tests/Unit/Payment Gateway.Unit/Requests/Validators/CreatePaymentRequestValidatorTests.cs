@@ -1,9 +1,9 @@
 ﻿using FluentValidation.TestHelper;
 using NUnit.Framework;
-using Common.Builders.Payment_Gateway_API.Requests;
+using Common.Builders.PaymentGatewayAPI.Requests;
 using PaymentGatewayAPI.Requests.Validators;
 
-namespace PaymentGatewayUnitAPI.Requests.Validators;
+namespace Unit.PaymentGatewayAPI.Requests.Validators;
 
 public class CreatePaymentRequestValidatorTests
 {
@@ -13,9 +13,8 @@ public class CreatePaymentRequestValidatorTests
     [SetUp]
     public void Setup()
     {
-        _createPaymentRequestBuilder = new CreatePaymentRequestBuilder();
-
         _validator = new CreatePaymentRequestValidator();
+        _createPaymentRequestBuilder = new CreatePaymentRequestBuilder();
     }
 
     [Test]

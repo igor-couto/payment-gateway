@@ -1,11 +1,10 @@
-﻿using AutoBogus;
-using Common.Builders.Domain;
+﻿using Common.Builders.Domain;
 using Domain.Entities;
 using Domain.Exceptions;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Domain.Tests.Entities;
+namespace Unit.Domain.Entities;
 
 public class PaymentTests
 {

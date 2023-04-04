@@ -3,7 +3,7 @@ using PaymentGatewayAPI.Requests;
 using PaymentGatewayAPI.Requests.Validators;
 using System.Globalization;
 
-namespace Common.Builders.Payment_Gateway_API.Requests;
+namespace Common.Builders.PaymentGatewayAPI.Requests;
 
 public sealed class CreatePaymentRequestBuilder : AutoFaker<CreatePaymentRequest>
 {

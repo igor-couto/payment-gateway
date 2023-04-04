@@ -8,7 +8,7 @@ using Amazon.SQS.Model;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 
-namespace PaymentGatewayUnitAPI.Services;
+namespace Unit.PaymentGatewayAPI.Services;
 
 class ExecutePaymentMessagePublisherServiceTests
 {

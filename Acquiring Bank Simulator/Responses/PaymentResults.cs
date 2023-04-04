@@ -4,7 +4,6 @@ internal static class PaymentResults
 {
     internal static readonly Dictionary<int, Result> Results = new()
     {
-        { 0, new Result("Authorized", "The transaction has been authorized successfully.")},
         { 1, new Result("Approved", "The transaction has gone through, and the payment is officially complete.")},
         { 2, new Result("Refer to issuer", "The transaction was rejected with no reason provided. The fix requires contacting the card-issuing bank for an explanation.")},
         { 3, new Result("Refer to issuer (special condition)", "The user’s bank rejected the transaction. You must contact the bank for the explanation and fix.")},

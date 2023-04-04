@@ -89,7 +89,7 @@ If you prefer, make http requests to `http://localhost:5127` using a client like
 
 **Step 4**
 
-Clean up the environment by stoping the Payment Gateway API (Ctrl+C in the terminal) and then remove all the containers and volumes:
+After finishing using the system, clean up the environment by stoping the Payment Gateway API (Ctrl+C in the terminal) and then remove all the containers and volumes:
 ```bash
 docker compose down --volumes
 ```

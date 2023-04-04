@@ -96,8 +96,7 @@ docker compose down --volumes
 
 ## About the solution
 
-### Arquiteture
-
+### Database Entity Relationship Diagram
 
 ![](https://github.com/igor-couto/images/blob/main/payment-gateway/payment-gateway-entity-relationship-diagram.png)
 

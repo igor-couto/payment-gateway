@@ -96,10 +96,6 @@ docker compose down --volumes
 
 ## About the solution
 
-### Database Entity Relationship Diagram
-
-![](https://github.com/igor-couto/images/blob/main/payment-gateway/payment-gateway-entity-relationship-diagram.png)
-
 ### Cloud technologies
 
 For this project, the chosen cloud solution was Amazon AWS.
@@ -108,6 +104,12 @@ Several services were used for development:
 - Identity and Access Management (IAM): Creating a new user, grant permissions to use AWS services 
 - AWS Cloudwatch: Stream the application logs when the environment is not Development
 - Amazon Simple Queue Service (SQS): payments queue and dead letter
+
+When the system is in the development environment, the AWS Local Stack running in a container will be used. When the environment is different from development, it will use the AWS services in my personal account.
+
+### Database Entity Relationship Diagram
+
+![](https://github.com/igor-couto/images/blob/main/payment-gateway/payment-gateway-entity-relationship-diagram.png)
 
 ### Request
 
@@ -180,9 +182,9 @@ Some cases are hard coded in the Acquiring Bank Simulator for testing purposes. 
 - If speed is a major concern, it is possible to denormalize the database tables by removing the `currency` and `payment_status` tables. Data consistency would be guaranteed only by the system that inputs the data.
 
 ## Areas for improvement
-- Possibility to receive a webhook to notify back the merchant that the payment was finished or failed
 - Write more unit tests to achieve a better coverage
 - Write integration and functional tests
+- Possibility to receive a webhook to notify back the merchant that the payment was finished or failed
 - Add redis or dotnet in memory cache to perform the search for repeated payments by it's checkout id (idempotency)
 - Write a pipeline to deploy the application in EC2
 - Configure a Dead Letter Queue in AWS LocalStack. In the moment, only the AWS Production environment have a Dead Letter Queue.

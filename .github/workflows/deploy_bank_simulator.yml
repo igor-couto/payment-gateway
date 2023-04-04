@@ -44,6 +44,6 @@ jobs:
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         application_name: Acquiring Bank Simulator
         environment_name: Acquiringbanksimulator-env
-        version_label: 12345
+        version_label: ${{ github.sha }}
         region: us-east-1
         deployment_package: deploy.zip

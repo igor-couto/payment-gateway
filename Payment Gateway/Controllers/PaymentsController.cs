@@ -6,7 +6,6 @@ using PaymentGatewayAPI.Services.Interfaces;
 
 namespace PaymentGatewayAPI.Controllers;
 
-//[Authorize]
 [ApiController]
 [ApiVersion(CurrentApiVersion.Major)]
 [Route($"api/v{CurrentApiVersion.Major}/[controller]")]
@@ -19,7 +18,6 @@ public class PaymentsController : ControllerBase
     /// <summary>
     /// Create a new payment that will be recorded and executed later.
     /// </summary>
-    //[HttpPost(), Authorize(Roles = "merchant")]
     [HttpPost()]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -45,7 +43,6 @@ public class PaymentsController : ControllerBase
     /// <summary>
     /// Returns an already created payment.
     /// </summary>
-    //[HttpGet("{paymentId:guid}"), Authorize(Roles = "merchant")]
     [HttpGet("{paymentId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

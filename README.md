@@ -191,7 +191,7 @@ Some cases are hard coded in the Acquiring Bank Simulator for testing purposes. 
 - Create a login endpoint for authentication or just use an identity provider
 - Create an AWS RDS running PostgreSQL
 - Add a SQS queue health check in Payment Gatewat API  
-
+- Many more! This was a weekend project. There are many other things to be done and improved : )
 ## Author
 
 Feel free to get in touch with me regarding any questions or issues about the Payment Gateway solution

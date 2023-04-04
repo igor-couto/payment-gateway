@@ -87,6 +87,13 @@ Open `http://localhost:5127/swagger` to access the Swagger UI where you can inte
 
 If you prefer, make http requests to `http://localhost:5127` using a client like [Postman](https://www.postman.com/downloads/) or [Insomnia](https://insomnia.rest/download).
 
+**Step 4**
+
+Clean up the environment by stoping the Payment Gateway API (Ctrl+C in the terminal) and then remove all the containers and volumes:
+```bash
+docker compose down --volumes
+```
+
 ## About the solution
 
 ### Arquiteture
@@ -140,7 +147,7 @@ Request Exemple:
 ```
 
 Response Exemple:
-201 Created
+
 ```json
 {
     "id": "d7570d0f-9293-4df4-baba-edeff6db1a7c"

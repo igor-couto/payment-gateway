@@ -1,8 +1,6 @@
 ﻿using AutoBogus;
-using Bogus.DataSets;
-using Common.Builders.Domain;
 using PaymentGatewayAPI.Requests;
-using System.Globalization;
+using PaymentGatewayAPI.Requests.Validators;
 
 namespace Common.Builders.Payment_Gateway_API.Requests;
 
@@ -10,7 +8,7 @@ public sealed class CreatePaymentRequestBuilder : AutoFaker<CreatePaymentRequest
 {
     public CreatePaymentRequestBuilder()
     {
-        RuleFor(x => x.Amount, faker => faker.Finance.Amount().ToString("F2", CultureInfo.InvariantCulture));
+        RuleFor(x => x.Amount, faker => faker.PickRandom(CreatePaymentRequestValidator.CurrencyCodes));
         RuleFor(x => x.Currency, faker => faker.Finance.Currency().Code);
     }
 

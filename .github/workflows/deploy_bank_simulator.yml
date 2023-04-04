@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  deploy-acquiring-bank-simulator:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +25,7 @@ jobs:
       run: dotnet build "Acquiring Bank Simulator/Acquiring Bank Simulator API.csproj" --configuration Release --no-restore
 
     - name: Publish
-      run: dotnet publish "Acquiring Bank Simulator/Acquiring Bank Simulator API.csproj" --configuration Release --no-build --output ./build_output
+      run: dotnet publish "Acquiring Bank Simulator/Acquiring Bank Simulator API.csproj" --configuration Release --no-build --self-contained true --output ./build_output
 
     - name: Generate deployment package
       run: cd ./build_output; zip -r ../deployment.zip .; cd ..

@@ -17,22 +17,41 @@ An application that allows a merchant to offer a way for their shoppers to pay f
 
 ### Running Locally
 
-Step 1
-```docker compose up -d```
+**Step 1**
 
-Step 2
+In your terminal, navigate to the root of the project and run the following commands:
 
+```bash
+docker compose up -d
+```
+Containers: _payment_database_, _localstack_, _ acquiring_bank_simulator_ and _payment_executor_
+
+**Step 2**
+
+Still in your terminal and in the root of the project, run:
+
+```bash
 dotnet run --project "Payment Gateway"
+```
 
-Step 3
+**Step 3**
 
-http://localhost:5127/swagger
-
-Here the application name container is the application you want to run by yoursef. It can be: payment_gateway_api, payment_executor or acquiring_bank_simulator
+Open `http://localhost:5127/swagger` to access the Swagger UI where you can interact with the Payment Gateway web API
 
 ## About the solution
 
 ### Arquiteture
+//TODO
+
+### Cloud technologies
+
+For this project, the chosen cloud solution was Amazon AWS.
+Several services were used for development:
+
+- Identity and Access Management (IAM): Creating a new user, grant permissions to use AWS services 
+- AWS Cloudwatch: Stream the application logs 
+- Amazon Simple Queue Service (SQS): 
+- AWS RDS running Postgres
 
 ### Request
 
@@ -44,11 +63,11 @@ The request for creating a payment has the following fields:
 - **amount (string)**: Represents the payment value that should be charged for the transaction, expressed in the format "00.00". It should be noted that this field should only contain numerical values and the decimal point, with no other characters such as commas or currency symbols.
 - **currency (string)**: Currency used in this payment. It is represented in three letters alphabetic code using the ISO 4217 format.
 - **creditCard (string)**: Information about the credit card used for payment.
-    - **creditCard.holder**: The name of the credit card owner, usually printed on the front of the card.
-    - **creditCard.cardNumber**: A credit card number is the long set of digits that usually appear on the front or back of your credit card. It is used to identify your credit card account.
-    - **creditCard.cardVerificationValue**: The Card Verification Value (CVV), also known as Card Security Code (CSC) is a number that is usually printed on the back of a credit card. The code is a security feature that allows the credit card processor to identify the cardholder.
-    - **creditCardExpirityMonth**: Credit card expiration month.
-    - **creditCardExpirityYear**: Credit card expiration year.
+    - **holder**: The name of the credit card owner, usually printed on the front of the card.
+    - **cardNumber**: A credit card number is the long set of digits that usually appear on the front or back of your credit card. It is used to identify your credit card account.
+    - **cardVerificationValue**: The Card Verification Value (CVV), also known as Card Security Code (CSC) is a number that is usually printed on the back of a credit card. The code is a security feature that allows the credit card processor to identify the cardholder.
+    - **expirityMonth**: Credit card expiration month.
+    - **expirityYear**: Credit card expiration year.
 
 
 Exemple:
@@ -73,21 +92,16 @@ Exemple:
 ## Assumptions and considerations
 TODO
 
+| Credit Card Number  | Problem                    | Message                                     |
+| ------------------- | -------------------------- | ------------------------------------------- |
+| 5385-6109-7070-6057 | XXXXXXXXXXXX               | XXXXXXXXXXXX                                |
+| 5197-6066-7512-2317 | XXXXXXXXXXXX               | XXXXXXXXXXXX                                |
+| 5144-8846-1008-0494 | XXXXXXXXXXXX               | XXXXXXXXXXXX                                |
+| 3479-3027-3551-4362 | XXXXXXXXXXXX               | XXXXXXXXXXXX                                |
+
 ## Areas for improvement
-TODO
-
-## Cloud technologies
-
-For this project, the chosen cloud solution was Amazon AWS.
-Several services were used for development:
-
-- Identity and Access Management (IAM): Creating a new user, grant permissions to use AWS services 
-- AWS Cloudwatch: Stream the application logs 
-- Amazon Simple Queue Service (SQS): 
-- Amazon API Gateway
-- AWS ECS
-- AWS Secrets Manager for password management and rotation
-- AWS RDS running Postgres
+- Write more unit teste to achieve a better coverage
+- Add redis or dotnet in memory cache to perform the search for repeated payments by checkout (idempotency)
 
 ## Author
 

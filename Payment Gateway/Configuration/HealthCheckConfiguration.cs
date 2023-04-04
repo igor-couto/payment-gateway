@@ -52,7 +52,7 @@ public static class HealthCheckConfiguration
             }
 
             jsonWriter.WriteEndObject();
-            jsonWriter.WriteEndObject();
+            
         }
         return context.Response.WriteAsync(Encoding.UTF8.GetString(memoryStream.ToArray()));
     }

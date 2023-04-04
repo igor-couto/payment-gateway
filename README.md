@@ -13,22 +13,31 @@ After researching the role of a payment gateway and its multiple functionalities
 
 In this solution, the following systems were developed:
 
-Acquiring Bank Simulator:
+**Payment Gateway API**:
 
-Payment Executor:
+It is the REST API that works as an entry point to the entire system. Receive, validate and register payment requests. It also can retrieve previously recorded payments.
 
-Payment Gateway API:
+**Queues**: I have chosen to use message broker queues to enhance overall efficiency, reliability, and fault tolerance. By incorporating a queue, I can decouple components and also promote scalability, allowing the entire system to handle increased workloads with ease by distributing messages among multiple instances of consumers. Furthermore, the asynchronous processing capabilities provided by queues help prevent bottlenecks, ensuring smooth operation.
 
-Queues: 
+**Database**: The database will store information regarding the payment and its status. A traditional relational database is ideal for this type of system. PostgreSQL was chosen because it is a powerful, open-source, object-relational database with ACID compliance.
 
-Database:
+**Payment Executor**: 
+
+It's a worker type application that runs constantly looking for messages in the queue. It was done that way for practicality but in the future it could be transformed into an AWS Lambda Function that would listen to queue events.
+
+**Acquiring Bank Simulator**:
+
+It's a small and simple minimal .NET API that only receives requests and returns programmed responses. It was built to be simple and easy to change, without too much attention to technical details. There are two endpoints available:
+> POST authorize
+> 
+> POST authorize/{authorizationId}/capture
 
 ## How to run the solution
 
 ### Prerequisites
 
 Make sure you have the following components installed:
-- [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+- [.NET 7 Runtime and SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 - [Docker](https://www.docker.com/products/docker-desktop/)
 
 For applications to run successfully, you need the following ports available
@@ -46,7 +55,7 @@ In your terminal, navigate to the root of the project and run the following comm
 ```bash
 docker compose up -d
 ```
-Containers: _payment_database_, _localstack_, _ acquiring_bank_simulator_ and _payment_executor_
+The following containers will be started: _payment_database_, _localstack_, _ acquiring_bank_simulator_ and _payment_executor_
 
 **Step 2**
 
@@ -56,9 +65,15 @@ Still in your terminal and in the root of the project, run:
 dotnet run --project "Payment Gateway"
 ```
 
+...or if you prefer open the `Payment Gateway.sln` solution in your preferred IDE and select RUN. Make sure the project that will run will be the Payment Gateway API.
+
 **Step 3**
 
-Open `http://localhost:5127/swagger` to access the Swagger UI where you can interact with the Payment Gateway web API
+Open `http://localhost:5127/swagger` to access the Swagger UI where you can interact with the Payment Gateway web API.
+
+![](https://github.com/igor-couto/images/blob/main/payment-gateway/payment-gateway-api-swagger.png)
+
+If you prefer, make http requests to `http://localhost:5127` using a client like [Postman](https://www.postman.com/downloads/) or [Insomnia](https://insomnia.rest/download).
 
 ## About the solution
 
@@ -123,7 +138,10 @@ TODO
 
 ## Areas for improvement
 - Write more unit teste to achieve a better coverage
-- Add redis or dotnet in memory cache to perform the search for repeated payments by checkout (idempotency)
+- Write integration and functional tests
+- Add redis or dotnet in memory cache to perform the search for repeated payments by it's checkout id (idempotency)
+- Write a pipeline to deploy the application in EC2
+- Configure a Dead Letter Queue in AWS LocalStack. In the moment, only the AWS Production environment have a Dead Letter Queue. 
 
 ## Author
 

@@ -182,16 +182,19 @@ Some cases are hard coded in the Acquiring Bank Simulator for testing purposes. 
 - If speed is a major concern, it is possible to denormalize the database tables by removing the `currency` and `payment_status` tables. Data consistency would be guaranteed only by the system that inputs the data.
 
 ## Areas for improvement
+- Transform the Payment Executor in an AWS Lambda Function
 - Write more unit tests to achieve a better coverage
-- Write integration and functional tests
+- Create integration and functional tests
 - Possibility to receive a webhook to notify back the merchant that the payment was finished or failed
 - Add redis or dotnet in memory cache to perform the search for repeated payments by it's checkout id (idempotency)
 - Write a pipeline to deploy the application in EC2
 - Configure a Dead Letter Queue in AWS LocalStack. In the moment, only the AWS Production environment have a Dead Letter Queue.
 - Create a login endpoint for authentication or just use an identity provider
 - Create an AWS RDS running PostgreSQL
-- Add a SQS queue health check in Payment Gatewat API  
+- Add a SQS queue health check in Payment Gatewat API
+- Create a Ledger Application containing bookkeeping entries to make financial reconciliation possible
 - Many more! This was a weekend project. There are many other things to be done and improved : )
+
 ## Author
 
 Feel free to get in touch with me regarding any questions or issues about the Payment Gateway solution

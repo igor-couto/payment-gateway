@@ -35,7 +35,7 @@ jobs:
         aws-region: us-east-1
 
     - name: Generate deployment package
-      run: zip -r deploy.zip ./Acquiring Bank Simulator/ -x '*.git*'
+      run: zip -r deploy.zip './Acquiring Bank Simulator/' -x '*.git*'
 
     - name: Deploy to EB
       uses: einaregilsson/beanstalk-deploy@v21

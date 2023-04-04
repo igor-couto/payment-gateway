@@ -9,11 +9,12 @@ namespace PaymentGatewayAPI.Services;
 public class ExecutePaymentMessagePublisherService : IExecutePaymentMessagePublisherService
 {
     private readonly IAmazonSQS _sqsClient;
-    private readonly string _queueName = "payments.fifo";
+    private readonly string _queueName;
 
-    public ExecutePaymentMessagePublisherService(IAmazonSQS sqsClient)
+    public ExecutePaymentMessagePublisherService(IAmazonSQS sqsClient, IConfiguration configuration)
     {
         _sqsClient = sqsClient;
+        _queueName = configuration["AWS:SQS:QueueName"]!;
     }
 
     public async Task Publish(ExecutePaymentMessage executePaymentMessage, CancellationToken cancellationToken)

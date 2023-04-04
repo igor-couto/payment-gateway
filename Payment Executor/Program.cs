@@ -6,13 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDatabase(builder.Configuration.GetConnectionString("DefaultConnection")!);
 
-var accessKeyId = builder.Configuration["AWS:AccessKeyId"]!;
-var secretAccessKey = builder.Configuration["AWS:SecretAccessKey"]!;
-var region = builder.Configuration["AWS:DefaultRegion"]!;
-var logGroup = builder.Configuration["AWS:CloudWatch:LogGroup"]!;
-var localstackUrl = builder.Configuration["LocalStack:ServiceUrl"]!;
-
-builder.Services.AddSqs(builder.Environment.IsDevelopment(), accessKeyId, secretAccessKey, region, localstackUrl);
+builder.Services.AddSqs(builder.Environment.IsDevelopment(), builder.Configuration);
 
 builder.Services.AddHttpClient("AcquiringBankSimulator", httpClient =>
 {

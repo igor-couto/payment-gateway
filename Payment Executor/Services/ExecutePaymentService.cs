@@ -1,8 +1,6 @@
 ﻿using System.Net;
 using System.Text;
 using System.Text.Json;
-using System.Text.RegularExpressions;
-using System.Threading;
 using Domain.Entities;
 using Domain.Messages;
 using Infrastructure.Persistence;
@@ -21,17 +19,19 @@ internal class ExecutePaymentService : IExecutePaymentService
 
     private readonly string _authorizationUri = "authorization";
     private readonly string _captureUri = "capture";
+    private readonly StringContent _emptyStringContent;
 
     public ExecutePaymentService(ILogger logger, DatabaseContext databaseContext, HttpClient acquiringBankHttpClient)
     {
         _logger = logger;
         _databaseContext = databaseContext;
         _acquiringBankHttpClient = acquiringBankHttpClient;
+        _emptyStringContent = new StringContent("", Encoding.UTF8, "application/json");
     }
 
     public async Task Execute(ExecutePaymentMessage executePaymentMessage, CancellationToken cancellationToken = default)
     {
-        var payment = await _databaseContext.Payments.FindAsync(executePaymentMessage.Id, cancellationToken);
+        var payment = await _databaseContext.Payments.FindAsync(executePaymentMessage.Id);
 
         if (payment is null)
         {
@@ -46,7 +46,7 @@ internal class ExecutePaymentService : IExecutePaymentService
 
     private async Task ExecuteCapture(Guid authorizationId, Payment payment, CancellationToken cancellationToken)
     {
-        var captureResponseResponse = await _acquiringBankHttpClient.PostAsync($"{_authorizationUri}/{authorizationId}/{_captureUri}", new StringContent("", Encoding.UTF8, "application/json"), cancellationToken);
+        var captureResponseResponse = await _acquiringBankHttpClient.PostAsync($"{_authorizationUri}/{authorizationId}/{_captureUri}", _emptyStringContent, cancellationToken);
 
         if (captureResponseResponse.StatusCode is HttpStatusCode.OK)
         {

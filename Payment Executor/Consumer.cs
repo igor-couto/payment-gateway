@@ -16,24 +16,22 @@ public class Consumer : BackgroundService
     private readonly IAmazonSQS _sqsClient;
     private readonly List<string> _messageAttributeNames = new() { "All" };
     private readonly List<string> _attributeNames = new() { "All" };
-    //private readonly IExecutePaymentService _executePaymentService;
     private readonly IServiceScopeFactory _serviceScopeFactory;
-
+    private readonly string _queueName;
     private string? _currentReceiptHandle;
 
-
-    public Consumer(ILogger<Consumer> logger, IAmazonSQS sqsClient, IHttpClientFactory httpClientFactory, IServiceScopeFactory serviceScopeFactory)
+    public Consumer(ILogger<Consumer> logger, IConfiguration configuration, IAmazonSQS sqsClient, IHttpClientFactory httpClientFactory, IServiceScopeFactory serviceScopeFactory)
     {
         _logger = logger;
         _sqsClient = sqsClient;
         _acquiringBankHttpClient = httpClientFactory.CreateClient("AcquiringBankSimulator");
-        //_executePaymentService = new ExecutePaymentService(logger, databaseContext, _acquiringBankHttpClient);
         _serviceScopeFactory = serviceScopeFactory;
+        _queueName = configuration["AWS:SQS:QueueName"]!;
     }
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        var queueUrlResponse = await _sqsClient.GetQueueUrlAsync("payments.fifo", cancellationToken);
+        var queueUrlResponse = await _sqsClient.GetQueueUrlAsync(_queueName, cancellationToken);
         var receiveRequest = new ReceiveMessageRequest
         {
             QueueUrl = queueUrlResponse.QueueUrl,

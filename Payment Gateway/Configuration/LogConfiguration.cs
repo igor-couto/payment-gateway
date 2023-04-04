@@ -10,8 +10,13 @@ namespace PaymentGatewayAPI.Configuration;
 
 public static class LogConfiguration
 {
-    public static void AddLogs(this ConfigureHostBuilder host, string accessKeyId, string secretAccessKey, string region, string logGroup)
+    public static void AddLogs(this ConfigureHostBuilder host, IConfiguration configuration)
     {
+        var accessKeyId = configuration["AWS:AccessKeyId"]!;
+        var secretAccessKey = configuration["AWS:SecretAccessKey"]!;
+        var region = configuration["AWS:DefaultRegion"]!;
+        var logGroup = configuration["AWS:CloudWatch:LogGroup"]!;
+
         host.UseSerilog((hostingContext, loggerConfiguration) =>
         {
             var isDevelopment = hostingContext.HostingEnvironment.IsDevelopment();

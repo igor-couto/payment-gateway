@@ -1,8 +1,4 @@
-using Amazon;
-using Amazon.Runtime;
-using Amazon.SQS;
 using Infrastructure.Configuration;
-using Amazon.Extensions.NETCore.Setup;
 using PaymentGatewayAPI.Configuration;
 using PaymentGatewayAPI.Services;
 using PaymentGatewayAPI.Services.Interfaces;
@@ -24,18 +20,9 @@ builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddVersioning();
 
-var accessKeyId = builder.Configuration["AWS:AccessKeyId"]!;
-var secretAccessKey = builder.Configuration["AWS:SecretAccessKey"]!;
-var region = builder.Configuration["AWS:DefaultRegion"]!;
-var logGroup = builder.Configuration["AWS:CloudWatch:LogGroup"]!;
-var localstackUrl = builder.Configuration["LocalStack:ServiceUrl"]!;
-
-builder.Services.AddSqs(isDevelopment, accessKeyId, secretAccessKey, region, localstackUrl);
-builder.Host.AddLogs(accessKeyId, secretAccessKey, region, logGroup);
+builder.Services.AddSqs(isDevelopment, builder.Configuration);
+builder.Host.AddLogs(builder.Configuration);
 builder.Services.AddFluentValidator();
-
-//var appsettings = builder.Configuration.GetChildren("");
-//var appSettings = builder.Services.Configure<AppSettings>(builder.Configuration.GetSection(""));
 
 builder.Services.AddTransient<ICreatePaymentService, CreatePaymentService>();
 builder.Services.AddTransient<IRetrievePaymentService, RetrievePaymentService>();

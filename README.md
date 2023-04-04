@@ -7,6 +7,8 @@ An application that allows a merchant to offer a way for their shoppers to pay f
 
 After researching the role of a payment gateway and its multiple functionalities, I decided to make my reduced version. There is no prior credit card validity check or fraud analysis. The acquiring bank simulator only accepts an authorization request and then a capture request to finalize the transaction.
 
+To simulate a real experience where payment is registered at the time the buyer clicks "place order" but processed later, I chose to make the flow asynchronous.
+
 ## High Level Design
 
 ![](https://github.com/igor-couto/images/blob/main/payment-gateway/payment-gateway%20design.png)
@@ -15,11 +17,20 @@ In this solution, the following systems were developed:
 
 **Payment Gateway API**:
 
-It is the REST API that works as an entry point to the entire system. Receive, validate and register payment requests. It also can retrieve previously recorded payments.
+It is the REST API that works as an entry point to the entire system. Receive, validate and register payment requests. It also can retrieve previously recorded payments. There are three endpoints available:
+> POST /payment
 
-**Queues**: I have chosen to use message broker queues to enhance overall efficiency, reliability, and fault tolerance. By incorporating a queue, I can decouple components and also promote scalability, allowing the entire system to handle increased workloads with ease by distributing messages among multiple instances of consumers. Furthermore, the asynchronous processing capabilities provided by queues help prevent bottlenecks, ensuring smooth operation.
+> GET /payment/{id}
 
-**Database**: The database will store information regarding the payment and its status. A traditional relational database is ideal for this type of system. PostgreSQL was chosen because it is a powerful, open-source, object-relational database with ACID compliance.
+> GET /health
+
+**Queues**:
+
+I have chosen to use message broker queues to enhance overall efficiency, reliability, and fault tolerance. By incorporating a payment queue, I can decouple components and also promote scalability, allowing the entire system to handle increased workloads with ease by distributing messages among multiple instances of consumers. Furthermore, the asynchronous processing capabilities provided by queues help prevent bottlenecks, ensuring smooth operation.
+
+**Database**: 
+
+The database will store information regarding the payment and its status. A traditional relational database is ideal for this type of system. PostgreSQL was chosen because it is a powerful, open-source, object-relational database with ACID compliance.
 
 **Payment Executor**: 
 
@@ -78,7 +89,9 @@ If you prefer, make http requests to `http://localhost:5127` using a client like
 ## About the solution
 
 ### Arquiteture
-//TODO
+
+
+![](https://github.com/igor-couto/images/blob/main/payment-gateway/payment-gateway-entity-relationship-diagram.png)
 
 ### Cloud technologies
 
@@ -86,9 +99,9 @@ For this project, the chosen cloud solution was Amazon AWS.
 Several services were used for development:
 
 - Identity and Access Management (IAM): Creating a new user, grant permissions to use AWS services 
-- AWS Cloudwatch: Stream the application logs 
-- Amazon Simple Queue Service (SQS): 
-- AWS RDS running Postgres
+- AWS Cloudwatch: Stream the application logs when the environment is not Development
+- Amazon Simple Queue Service (SQS): payments queue and dead letter
+- AWS RDS running PostgreSQL
 
 ### Request
 
@@ -141,7 +154,8 @@ TODO
 - Write integration and functional tests
 - Add redis or dotnet in memory cache to perform the search for repeated payments by it's checkout id (idempotency)
 - Write a pipeline to deploy the application in EC2
-- Configure a Dead Letter Queue in AWS LocalStack. In the moment, only the AWS Production environment have a Dead Letter Queue. 
+- Configure a Dead Letter Queue in AWS LocalStack. In the moment, only the AWS Production environment have a Dead Letter Queue.
+- Create an login endpoint for authentication or just use an identity provider
 
 ## Author
 

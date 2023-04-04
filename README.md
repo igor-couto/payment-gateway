@@ -2,6 +2,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/igor-couto/payment-gateway/blob/main/LICENSE)
 [![Build Badge](https://github.com/igor-couto/payment-gateway/actions/workflows/build.yml/badge.svg)](https://github.com/igor-couto/payment-gateway/actions/workflows/build.yml)
+[![Test Badge](https://github.com/igor-couto/payment-gateway/actions/workflows/tests.yml/badge.svg)](https://github.com/igor-couto/payment-gateway/actions/workflows/tests.yml)
 
 An application that allows a merchant to offer a way for their shoppers to pay for their product.
 

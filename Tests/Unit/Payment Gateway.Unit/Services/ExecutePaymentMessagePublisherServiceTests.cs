@@ -6,6 +6,7 @@ using NUnit.Framework;
 using NSubstitute;
 using Amazon.SQS.Model;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace PaymentGatewayUnitAPI.Services;
 
@@ -13,6 +14,7 @@ class ExecutePaymentMessagePublisherServiceTests
 {
     private ExecutePaymentMessagePublisherService _messagePublisherService;
     private IAmazonSQS _sqsClientMock;
+    private IConfiguration _configuration;
     private CancellationToken _cancellationToken;
     private const string QueueUrl = "https://example.com/sqs/payments.fifo";
     private readonly string QueueName = "payments.fifo";
@@ -22,13 +24,15 @@ class ExecutePaymentMessagePublisherServiceTests
     public void SetUp()
     {
         _cancellationToken = new CancellationTokenSource().Token;
-
         _sqsClientMock = Substitute.For<IAmazonSQS>();
+        _configuration = Substitute.For<IConfiguration>();
+
+        _configuration["AWS:SQS:QueueName"].Returns(QueueName);
 
         _sqsClientMock.GetQueueUrlAsync(QueueName, _cancellationToken)
             .Returns(Task.FromResult(new GetQueueUrlResponse { QueueUrl = QueueUrl }));
 
-        _messagePublisherService = new ExecutePaymentMessagePublisherService(_sqsClientMock);
+        _messagePublisherService = new ExecutePaymentMessagePublisherService(_sqsClientMock, _configuration);
     }
 
     [Test]

@@ -188,6 +188,7 @@ Some cases are hard coded in the Acquiring Bank Simulator for testing purposes. 
 - Configure a Dead Letter Queue in AWS LocalStack. In the moment, only the AWS Production environment have a Dead Letter Queue.
 - Create a login endpoint for authentication or just use an identity provider
 - Create an AWS RDS running PostgreSQL
+- Add a SQS queue health check in Payment Gatewat API  
 
 ## Author
 
